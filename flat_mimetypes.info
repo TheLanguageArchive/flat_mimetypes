@@ -1,0 +1,5 @@
+name = "FLAT mimetypes"
+description = "Alter mime type / extension mappings for specific file types"
+package = FLAT
+core = 7.x
+version = 7.x-dev

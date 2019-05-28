@@ -1,0 +1,86 @@
+<?php
+
+/**
+* @file
+* Alter mime type / extension mappings for specific file types. Runs after the Islandora mimetype mapping alter.
+*/
+
+/**
+ * Implements hook_file_mimetype_mapping_alter().
+ */
+function flat_mimetypes_file_mimetype_mapping_alter(&$mapping) {
+
+  $new_mappings['asc'] = ''; // removing this extension for text/plain
+  $new_mappings['text'] = ''; // removing this extension for text/plain
+  $new_mappings['pot'] = ''; // removing this extension for text/plain
+  $new_mappings['wav'] = 'audio/x-wav';
+  $new_mappings['mpg'] = 'video/x-mpeg1';
+  $new_mappings['mpeg'] = 'video/x-mpeg2';
+  $new_mappings['mp4'] = 'video/mp4';
+  $new_mappings['tiff'] = 'image/tiff';
+  $new_mappings['svg'] = 'image/svg+xml';
+  $new_mappings['eaf'] = 'text/x-eaf+xml';
+  $new_mappings['pfsx'] = 'text/x-pfsx+xml';
+  $new_mappings['cha'] = 'text/x-chat';
+  $new_mappings['tbt'] = 'text/x-toolbox-text';
+  $new_mappings['TextGrid'] = 'text/praat-textgrid';
+  $new_mappings['pdf'] = 'application/pdf';
+  $new_mappings['odt'] = 'application/vnd.oasis.opendocument.text';
+  $new_mappings['tbx'] = 'text/x-toolbox-lexicon';
+  $new_mappings['cut'] = 'text/x-cut';
+  $new_mappings['typ'] = 'text/x-toolbox-type';
+  $new_mappings['lng'] = 'text/x-toolbox-language';
+  $new_mappings['set'] = 'text/x-toolbox-sortorder';
+  $new_mappings['kml'] = 'application/vnd.google-earth.kml+xml';
+  $new_mappings['ods'] = 'application/vnd.oasis.opendocument.spreadsheet';
+  $new_mappings['odp'] = 'application/vnd.oasis.opendocument.presentation';
+  $new_mappings['csv'] = 'text/csv';
+  $new_mappings['img'] = 'application/x-neuroscan-img';
+  $new_mappings['hdr'] = 'application/x-neuroscan-img-hdr';
+  $new_mappings['eeg'] = 'application/x-brainvision-data';
+  $new_mappings['seg'] = 'application/x-brainvision-data';
+  $new_mappings['sav'] = 'application/spss-sav';
+  $new_mappings['spv'] = 'application/x-spss-spv';
+  $new_mappings['ehst'] = 'application/x-ehst';
+  $new_mappings['ehtp'] = 'application/x-ehtp';
+  $new_mappings['mat'] = 'application/x-matlab-data';
+  $new_mappings['fig'] = 'application/x-matlab-data';
+  $new_mappings['IMA'] = 'application/dicom';
+  $new_mappings['ima'] = 'application/dicom';
+  $new_mappings['dcm'] = 'application/dicom';
+  $new_mappings['vhdr'] = 'text/x-brainvision-header';
+  $new_mappings['vmkr'] = 'text/x-brainvision-marker';
+  $new_mappings['hfinf'] = 'text/x-neuroscan-hfinf';
+  $new_mappings['mat'] = 'text/x-matlab';
+  $new_mappings['pcl'] = 'text/x-presentation-script';
+  $new_mappings['sce'] = 'text/x-presentation-script';
+  $new_mappings['exp'] = 'text/x-presentation-settings';
+  $new_mappings['Praat'] = 'text/praat-pitch';
+  $new_mappings['praat'] = 'text/praat-pitch';
+
+
+  foreach ($new_mappings as $extension => $mime_type) {
+    if (!in_array($mime_type, $mapping['mimetypes'])) {
+      // If the mime type does not already exist, add it.
+      $mapping['mimetypes'][] = $mime_type;
+    }
+
+    // Get the index of the mime type and assign the extension to that key.
+    $index = array_search($mime_type, $mapping['mimetypes']);
+    $mapping['extensions'][$extension] = $index;
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter
+ *
+ * Make sure that our mimetype_mapping_alter is called last
+ */
+function flat_mimetypes_module_implements_alter(&$implementations, $hook)
+{
+  if ($hook == 'file_mimetype_mapping_alter') {
+    $group = $implementations[ 'flat_mimetypes'];
+    unset($implementations[ 'flat_mimetypes']);
+    $implementations[ 'flat_mimetypes'] = $group;
+  }
+}
