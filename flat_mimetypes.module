@@ -57,6 +57,9 @@ function flat_mimetypes_file_mimetype_mapping_alter(&$mapping) {
   $new_mappings['exp'] = 'text/x-presentation-settings';
   $new_mappings['Praat'] = 'text/praat-pitch';
   $new_mappings['praat'] = 'text/praat-pitch';
+  $new_mappings['R'] = 'text/x-R';
+  $new_mappings['Rmd'] = 'text/x-r-markdown';
+  $new_mappings['rmd'] = 'text/x-r-markdown';
 
 
   foreach ($new_mappings as $extension => $mime_type) {
